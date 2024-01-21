@@ -1,25 +1,17 @@
 import sys
 import random
-from enum import Enum
 
-def rps(name='PlayerOne'):
+def gs(name='PlayerOne'):
     game_count = 0
     player_wins = 0
-    python_wins = 0
 
     def play_rsp():
         nonlocal name
         nonlocal player_wins
-        nonlocal python_wins
-        class RPS(Enum):
-            ROCK = 1
-            PAPER = 2
-            SCISSORS = 3
 
-        
-        playerchoice = input(f"\n{name}, please enter ... \n1 for Rock, \n2 for Paper, or \n3 for Scissor: \n\n")
+        playerchoice = input(f"\n{name}, guess which number I'm thinking of ... 1,2, or 3 \n\n")
         if playerchoice not in ["1", "2", "3"]:
-            print(f"{name}, please enter 1,2, or 3.")
+            print(f"{name}, please, enter... 1,2, or 3.")
             return play_rsp()
         player = int(playerchoice)
         if player < 1 or player > 3 :
@@ -29,27 +21,17 @@ def rps(name='PlayerOne'):
 
         computer = int(computerchoice)
 
-        print(f"\n{name}, you chose {str(RPS(player)).replace('RPS','').title()}")
-        print(f"Python chose {str(RPS(computer)).replace('RPS','').title()}.\n")
+        print(f"\n{name}, you chose {player}")
+        print(f"Computer chose {computer}\n")
 
         def decide_winner(player, computer):
             nonlocal name
             nonlocal player_wins
-            nonlocal python_wins
-            if player == 1 and computer == 3:
-                player_wins +=1 
+            if computer == player:
+                player_wins +=1
                 return f"{name}, you win!"
-            elif player == 2 and computer == 1:
-                player_wins +=1 
-                return f"{name}, you win!"
-            elif player == 3 and computer == 2:
-                player_wins +=1 
-                return f"{name}, you win!"
-            elif player == computer:
-                return "Tie game"
             else:
-                python_wins
-                return f"🐍 Python wins!\n Sorry, {name} .. 😟"
+                return f"Sorry, {name}. Beter luck next time"
 
         game_result = decide_winner(player, computer)
 
@@ -60,7 +42,15 @@ def rps(name='PlayerOne'):
 
         print(f"\nGame Count: { game_count}")
         print(f"\n{name} wins : { player_wins}")
-        print(f"\nPython wins : { python_wins}")
+        percentage = 0
+        if(player_wins != 0):
+            percentage = format((player_wins/game_count)*100, ".2f")
+            print(f"\nYour winning percentage: {percentage}%")
+        elif percentage != 0:
+            print(f"\nYour winning percentage: {percentage}%")
+        else:
+            print("\nYour winning percentage: 00.00%")
+        
         print(f"\nPlay again, {name}?")
         while True:
             playagain = input("\nPlay again? \nY for Yes \nN for Quit \n")
@@ -92,6 +82,7 @@ if __name__ == "__main__":
         required=True, help = "The name of the person playing the game."
     )
 
+
     args = parser.parse_args()
-    rock_paper_scissors = rps(args.name)
-    rock_paper_scissors()
+    guess_number = gs(args.name)
+    guess_number()
